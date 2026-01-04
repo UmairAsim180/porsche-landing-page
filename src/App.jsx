@@ -219,8 +219,8 @@ function App() {
             </button>
           </div>
         </section>
-      </div>
       <Footer/>
+      </div>
     </div>
   );
 }
