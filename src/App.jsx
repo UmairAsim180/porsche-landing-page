@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Text, Stage, useProgress } from '@react-three/drei';
+import { OrbitControls, Text, Stage, useProgress, Environment } from '@react-three/drei';
 import { Porsche } from './Porsche';
 import React, { useRef } from 'react';
 import gsap from 'gsap';
@@ -117,13 +117,13 @@ function SceneContent() {
       >
         PORSCHE
       </Text>
-
+      <Environment files="/potsdamer_platz_1k.hdr" />
       <Stage
-        environment="city"
+        environment={null}
         intensity={0.5}
         contactShadow={{ opacity: 0.5, blur: 2 }}
         adjustCamera={false}
-      >a
+      >
         <Porsche ref={carRef} />
       </Stage>
 
@@ -141,7 +141,7 @@ function App() {
   return (
     <div className="w-full h-full bg-[#E8E8E8] relative overflow-x-hidden">
       <Loader />
-      <Navbar/>
+      <Navbar />
       {/* 1. THE 3D WORLD (Background Layer) */}
       {/* FIX: Added z-0 so it sits BEHIND the text */}
       <div className="fixed top-0 left-0 w-full h-screen z-0">
@@ -209,17 +209,17 @@ function App() {
               maneuvers and the stability of a longer wheelbase at high speeds.
               Physics, redefined.
             </p>
-            
+
             {/* THIS BUTTON WILL WORK NOW */}
-            <button 
-              onClick={scrollToTop} 
+            <button
+              onClick={scrollToTop}
               className="mt-8 px-8 py-3 bg-[#0F172A] text-white font-bold tracking-widest text-xs uppercase hover:bg-red-600 transition-colors cursor-pointer"
             >
               Configure Yours
             </button>
           </div>
         </section>
-      <Footer/>
+        <Footer />
       </div>
     </div>
   );
