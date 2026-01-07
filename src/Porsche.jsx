@@ -5,10 +5,6 @@ import { useEffect } from 'react';
 export function Porsche(props) {
 
 
-  const { scene } = useGLTF('/porsche.glb');
-  // const { , materials, scene } = useGLTF('/porsche.glb')
-  
-  // console.log(nodes)
-  // scale 100
-  return <primitive object={scene}   {...props} />;
+  const { scene } = useGLTF('/porsche_gt3.glb', true);
+  return <primitive object={scene}  {...props} />;
 }

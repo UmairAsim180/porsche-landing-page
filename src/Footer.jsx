@@ -2,67 +2,96 @@ import React from 'react';
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#0F172A] text-white py-20 px-10 md:px-20 pointer-events-auto relative z-10">
+    <footer className="w-full bg-black text-white py-20 px-10 md:px-20 pointer-events-auto relative z-10 border-t border-white/10 overflow-hidden">
       
-      {/* Top Section: Links Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20 border-b border-gray-800 pb-12">
+      {/* 1. MASSIVE BACKGROUND WATERMARK */}
+      {/* This sits behind the content for that "poster" look */}
+      <h1 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15vw] font-black italic tracking-tighter text-white opacity-[0.03] select-none whitespace-nowrap pointer-events-none">
+        GT3 RS
+      </h1>
+
+      <div className="relative z-10 max-w-7xl mx-auto">
         
-        {/* Brand Column */}
-        <div className="col-span-1 md:col-span-1">
-          <h2 className="text-2xl font-black tracking-widest mb-6">PORSCHE</h2>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            Dr. Ing. h.c. F. Porsche AG<br />
-            Porscheplatz 1<br />
-            70435 Stuttgart<br />
-            Germany
-          </p>
+        {/* 2. TOP ROW: BRAND & RAW DATA */}
+        <div className="flex flex-col md:flex-row justify-between items-start mb-20 gap-10">
+          <div>
+            <h2 className="text-3xl font-black italic tracking-tighter mb-4">PORSCHE</h2>
+            <div className="font-mono text-[10px] text-gray-500 space-y-1 border-l-2 border-red-600 pl-4">
+              <p>STUTTGART — DE</p>
+              <p>LAT: 48.834° N</p>
+              <p>LON: 9.152° E</p>
+            </div>
+          </div>
+
+          {/* Technical Badge */}
+          <div className="border border-white/20 p-4 text-center hidden md:block">
+             <p className="text-[10px] font-mono tracking-widest text-gray-500 uppercase mb-1">Nürburgring Lap</p>
+             <p className="text-3xl font-black italic text-red-600">6:49.328</p>
+          </div>
         </div>
 
-        {/* Links Column 1 */}
-        <div>
-          <h4 className="font-bold tracking-widest text-xs uppercase mb-6 text-gray-500">Models</h4>
-          <ul className="space-y-3 text-sm font-medium">
-            <li><a href="#" className="hover:text-red-600 transition-colors">911</a></li>
-            <li><a href="#" className="hover:text-red-600 transition-colors">718 Cayman</a></li>
-            <li><a href="#" className="hover:text-red-600 transition-colors">Taycan</a></li>
-            <li><a href="#" className="hover:text-red-600 transition-colors">Panamera</a></li>
-            <li><a href="#" className="hover:text-red-600 transition-colors">Macan</a></li>
-          </ul>
+        {/* 3. MIDDLE ROW: LINKS (Grid Layout) */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 border-b border-white/10 pb-16 mb-8">
+          
+          {/* Column 1 */}
+          <div>
+            <h4 className="font-bold tracking-widest text-xs uppercase mb-6 text-red-600">Configuration</h4>
+            <ul className="space-y-3 font-mono text-xs text-gray-400">
+              <li><a href="#" className="hover:text-white transition-colors">Build Your Own</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Compare Models</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Weissach Package</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Track Accessories</a></li>
+            </ul>
+          </div>
+
+          {/* Column 2 */}
+          <div>
+            <h4 className="font-bold tracking-widest text-xs uppercase mb-6 text-red-600">Experience</h4>
+            <ul className="space-y-3 font-mono text-xs text-gray-400">
+              <li><a href="#" className="hover:text-white transition-colors">Porsche Track Precision</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Driving School</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Motorsport</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Christophorus Mag</a></li>
+            </ul>
+          </div>
+
+          {/* Column 3 */}
+          <div>
+            <h4 className="font-bold tracking-widest text-xs uppercase mb-6 text-red-600">Legal</h4>
+            <ul className="space-y-3 font-mono text-xs text-gray-400">
+              <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Cookie Settings</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Consumption Data</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Whistleblower System</a></li>
+            </ul>
+          </div>
+
+          {/* Column 4: Newsletter Box */}
+          <div className="col-span-2 md:col-span-1">
+            <h4 className="font-bold tracking-widest text-xs uppercase mb-6 text-red-600">Updates</h4>
+            <p className="font-mono text-[10px] text-gray-500 mb-4">
+              Receive the latest telemetry from Porsche AG.
+            </p>
+            <div className="flex border-b border-white/20 pb-2">
+              <input 
+                type="email" 
+                placeholder="EMAIL ADDRESS" 
+                className="bg-transparent border-none outline-none text-xs w-full text-white placeholder-gray-700 font-mono"
+              />
+              <button className="text-xs font-bold uppercase text-red-600 hover:text-white transition-colors">
+                Join
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* Links Column 2 */}
-        <div>
-          <h4 className="font-bold tracking-widest text-xs uppercase mb-6 text-gray-500">Services</h4>
-          <ul className="space-y-3 text-sm font-medium">
-            <li><a href="#" className="hover:text-red-600 transition-colors">Porsche Financial</a></li>
-            <li><a href="#" className="hover:text-red-600 transition-colors">Porsche Finder</a></li>
-            <li><a href="#" className="hover:text-red-600 transition-colors">Sign up for News</a></li>
-            <li><a href="#" className="hover:text-red-600 transition-colors">Contact</a></li>
-          </ul>
+        {/* 4. BOTTOM ROW: COPYRIGHT */}
+        <div className="flex flex-col md:flex-row justify-between items-center text-[10px] font-mono text-gray-600 uppercase tracking-widest">
+          <p>© 2024 Dr. Ing. h.c. F. Porsche AG</p>
+          <p className="mt-2 md:mt-0">System Status: <span className="text-green-500">Normal</span></p>
         </div>
 
-        {/* Socials / Newsletter */}
-        <div>
-           <h4 className="font-bold tracking-widest text-xs uppercase mb-6 text-gray-500">Social Media</h4>
-           <div className="flex gap-4">
-             {/* Simple placeholders for social icons */}
-             <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors cursor-pointer">IG</div>
-             <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors cursor-pointer">X</div>
-             <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors cursor-pointer">YT</div>
-           </div>
-        </div>
       </div>
-
-      {/* Bottom Section: Copyright */}
-      <div className="flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 uppercase tracking-wider">
-        <p>&copy; 2024 Porsche AG. All Rights Reserved.</p>
-        <div className="flex gap-6 mt-4 md:mt-0">
-          <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-          <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
-          <a href="#" className="hover:text-white transition-colors">Legal Notice</a>
-        </div>
-      </div>
-
     </footer>
   );
 }

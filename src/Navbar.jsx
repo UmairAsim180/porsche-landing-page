@@ -1,32 +1,48 @@
-import React from 'react'
+import React from 'react';
 
-const Navbar = () => {
-    return (
-        <nav className="fixed top-0 left-0 w-full p-8 z-40 flex justify-between items-center pointer-events-none">
-            {/* Left: Brand / Model Name */}
-            {/* pointer-events-auto allows clicking this specific element */}
-            <div className="text-[#0F172A] font-black text-xl tracking-widest pointer-events-auto cursor-pointer">
-                PORSCHE <span className="font-light opacity-60">911</span>
-            </div>
+export default function Navbar() {
+  return (
+    <nav className="fixed top-0 left-0 w-full z-50 py-6 px-10 md:px-20 flex justify-between items-center mix-blend-difference text-white pointer-events-auto border-b border-white/10 backdrop-blur-[2px]">
+      
+      {/* LEFT: BRANDING */}
+      <div className="flex items-end gap-2 group cursor-pointer">
+        <h1 className="text-2xl font-black tracking-tighter italic">
+          PORSCHE
+        </h1>
+        <span className="text-sm font-bold tracking-[0.2em] mb-1 text-red-600 group-hover:translate-x-1 transition-transform duration-300">
+          GT3 RS
+        </span>
+      </div>
 
-            {/* Right: Menu / Actions */}
-            <div className="flex gap-8 items-center pointer-events-auto">
-                <a href="#" className="text-[#0F172A] font-bold text-sm tracking-widest hover:text-red-600 transition-colors hidden md:block">
-                    MODELS
-                </a>
-                <a href="#" className="text-[#0F172A] font-bold text-sm tracking-widest hover:text-red-600 transition-colors hidden md:block">
-                    SHOP
-                </a>
+      {/* CENTER: TECHNICAL LINKS (Hidden on mobile) */}
+      <div className="hidden md:flex gap-12 text-xs font-bold tracking-[0.2em] uppercase">
+        {['Technical', 'Design', 'Track Mode'].map((item) => (
+          <a 
+            key={item} 
+            href="#" 
+            className="relative group overflow-hidden"
+          >
+            <span className="block group-hover:-translate-y-full transition-transform duration-300 ease-in-out">
+              {item}
+            </span>
+            <span className="absolute top-0 left-0 block translate-y-full text-red-600 group-hover:translate-y-0 transition-transform duration-300 ease-in-out">
+              {item}
+            </span>
+          </a>
+        ))}
+      </div>
 
-                {/* Hamburger Menu Icon */}
-                <button className="group space-y-1.5 cursor-pointer">
-                    <div className="w-8 h-0.5 bg-[#0F172A] group-hover:bg-red-600 transition-colors"></div>
-                    <div className="w-6 h-0.5 bg-[#0F172A] group-hover:bg-red-600 transition-colors ml-auto"></div>
-                    <div className="w-8 h-0.5 bg-[#0F172A] group-hover:bg-red-600 transition-colors"></div>
-                </button>
-            </div>
-        </nav>
-    )
+      {/* RIGHT: MENU BUTTON */}
+      <button className="hidden md:block px-6 py-2 border border-white/20 text-[10px] font-black tracking-[0.3em] uppercase hover:bg-white hover:text-black hover:border-white transition-all duration-300">
+        Menu
+      </button>
+
+      {/* MOBILE HAMBURGER (Visible on small screens) */}
+      <div className="md:hidden space-y-1 cursor-pointer">
+        <div className="w-6 h-0.5 bg-white"></div>
+        <div className="w-4 h-0.5 bg-white ml-auto"></div>
+      </div>
+
+    </nav>
+  );
 }
-
-export default Navbar
