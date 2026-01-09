@@ -9,7 +9,7 @@ export default function Navbar() {
         <h1 className="text-2xl font-black tracking-tighter italic">
           PORSCHE
         </h1>
-        <span className="text-sm font-bold tracking-[0.2em] mb-1 text-red-600 group-hover:translate-x-1 transition-transform duration-300">
+        <span className="text-sm font-bold tracking-[0.2em] mb-1 text-cyan-600 group-hover:translate-x-1 transition-transform duration-300">
           GT3 RS
         </span>
       </div>

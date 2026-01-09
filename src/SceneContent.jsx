@@ -4,11 +4,12 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Porsche } from './Porsche';
+import { useFrame } from '@react-three/fiber';
 // gsap plugin register 
 gsap.registerPlugin(useGSAP);
 gsap.registerPlugin(ScrollTrigger)
 
-function SceneContent() {
+function SceneContent({ bodyColor, ignitionStatus }) {
     // Ref for the Porsche component
     const textRef = useRef();
     const carRef = useRef();
@@ -94,6 +95,22 @@ function SceneContent() {
             }, "<")
 
     }, []);
+    
+
+    useFrame((state) => {
+    if (!carRef.current) return;
+
+    if (ignitionStatus === 2) {
+      const time = state.clock.getElapsedTime();
+      // Tiny random vibration + rhythmic engine pulse
+      carRef.current.position.y = (Math.sin(time * 60) * 0.0003) + (Math.random() * 0.0001);
+      carRef.current.rotation.z = (Math.random() * 0.0002);
+    } else {
+      // Reset position when off
+      carRef.current.position.y = 0;
+      carRef.current.rotation.z = 0;
+    }
+  });
     return (
         <>
             <Text
@@ -112,10 +129,10 @@ function SceneContent() {
             <Stage
                 environment={null}
                 intensity={0.5}
-                contactShadow={{ opacity: 0.5, blur: 2 }}
+                contactShadow={{ opacity: 0.01, blur: 2, scale: 10}}
                 adjustCamera={false}
             >
-                <Porsche ref={carRef} rotation={[0, Math.PI / 2, 0]} />
+                <Porsche ref={carRef} rotation={[0, Math.PI / 2, 0]} bodyColor={bodyColor} ignitionStatus={ignitionStatus} />
             </Stage>
 
             <OrbitControls enableZoom={false} enableRotate={false} />
