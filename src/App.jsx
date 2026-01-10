@@ -1,4 +1,4 @@
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useThree } from '@react-three/fiber';
 import { useProgress } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import Loader from './Loader';
@@ -7,6 +7,9 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import SceneContent from './SceneContent';
 import { useEffect } from 'react';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+import { useIsMobile } from './hooks/useIsMobile';
 
 function App() {
   const { active } = useProgress();
@@ -21,9 +24,72 @@ function App() {
     { name: "Stealth Black", hex: "#010101", class: "bg-black" },      // Batmobile
   ])
   const [selectedColor, setSelectedColor] = useState(5)
+  let isMobile = useIsMobile()
+  useEffect(() => {
+    console.log(isMobile)
+  }, [isMobile])
+
 
   const coldStartRef = useRef(new Audio('/cold_start.mp3'));
   const idleRef = useRef(new Audio('/idle.mp3'));
+
+
+
+  useGSAP(() => {
+    gsap.from('.colorBlock', {
+      opacity: 0,
+      duration: 0.8,
+      ease: "back.out(1.7)",
+      stagger: 0.1,
+      delay: 1
+    })
+    gsap.to('.engineSwitch, .colorConfigurtor', {
+      scrollTrigger: {
+        trigger: '.sec-0',
+        start: '20% top',
+        end: '60% end',
+        scrub: 2,
+      },
+      opacity: 0,
+    });
+  }
+  )
+  useGSAP(() => {
+    if (isMobile) {
+      gsap.to('.sec-1', {
+        scrollTrigger: {
+          trigger: '.sec-1',
+          start: 'top 30%',
+          end: 'bottom 70%',
+          scrub: 2,
+        },
+        y: 100,
+        opacity: 0,
+      })
+      gsap.to('.sec-2', {
+        scrollTrigger: {
+          trigger: '.sec-2',
+          start: 'top 30%',
+          end: 'bottom 70%',
+          scrub: 2,
+        },
+        y: 100,
+        opacity: 0,
+      })
+      gsap.to('.sec-3', {
+        scrollTrigger: {
+          trigger: '.sec-3',
+          start: 'top 30%',
+          end: 'bottom 70%',
+          scrub: 2,
+        },
+        y: 100,
+        opacity: 0,
+      })
+    }
+
+  }, [isMobile]);
+
 
   useEffect(() => {
     const coldStart = coldStartRef.current;
@@ -57,23 +123,21 @@ function App() {
 
   const rotation = (ignitionState * 45) - 45;
 
-  
-
 
   return (
-    <main className="w-full h-full bg-[#E8E8E8] relative overflow-x-hidden">
+    <main className="w-full h-full bg-[#E8E8E8] relative overflow-x-hidden z-0">
       <Navbar />
       <Loader />
 
-      {/* 1. THE 3D WORLD (Background Layer) */}
-      <div className="fixed top-0 left-0 w-full h-screen z-0">
+      {/* 3D Overlay  */}
+      <div className="3d-sec fixed top-0 left-0 w-full h-2/3 md:h-screen z-10">
         <Canvas shadows camera={{ position: [0, 0, 4], fov: 50 }}>
           <Suspense fallback={null} >
             <SceneContent bodyColor={porscheColors[selectedColor].hex} ignitionStatus={ignitionState} />
           </Suspense>
           <EffectComposer>
             <Bloom
-              luminanceThreshold={1.0} // only glow things brighter than 1.0
+              luminanceThreshold={2.0} // only glow things brighter than 1.0
               mipmapBlur               // Makes the glow look soft and professional
               intensity={1.0}          // Strength of the glow
               radius={0.6}             // Spread of the glow
@@ -82,38 +146,35 @@ function App() {
         </Canvas>
       </div>
 
-
-      <section className='h-screen relative'>
-        <div className=" absolute bottom-20 right-20 switch size-36 bg-[#282828] rounded-full">
-          <img src="/switch_ring.png" alt="switch ring" className="w-full h-full" />
-          {/* rotate knob on click  */}
-          <img
-            onClick={handleKnobClick}
-            src="/switch_knob.png"
-            alt="Ignition Knob"
-            className="size-28 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-transform duration-300 ease-out"
-            style={{ transform: `rotate(${rotation}deg)` }}
-          />
-        </div>
-        <div className="colorConfigurtor absolute flex bottom-20 left-1/2 -translate-1/2 gap-3">
-          {porscheColors.map((color, index) => (
-            <div
-              onClick={() => setSelectedColor(index)}
-              key={index}
-              className={`${color.class} ${index == selectedColor && "border-2 scale-125"} border-gray-700 shadow shadow-gray-700 w-10 h-10 rounded-md cursor-pointer transition-transform duration-100`}
-            ></div>
-          ))}
-        </div>
-      </section>
-
-
       {/* 2. THE HTML CONTENT (Foreground Layer) */}
-      {/* FIX: Added relative z-10 (puts it on top) and pointer-events-none (lets you click through empty space) */}
-      <div className={`relative z-10 pointer-events-none ${active ? 'hidden' : ''} `}>
+      <div className={`relative z-20 ${active ? 'hidden' : 'block'} `}>
 
+        <section className='sec-0 h-screen relative'>
+          {/* ignition switch  */}
+          <div className={`engineSwitch absolute bottom-48 md:bottom-20 right-8 md:right-20 switch size-24 md:size-36 bg-[#282828] rounded-full`}>
+            <img src="/switch_ring.png" alt="switch ring" className="engineSwitch w-full h-full" />
+            <img
+              onClick={handleKnobClick}
+              src="/switch_knob.png"
+              alt="Ignition Knob"
+              className="engineSwitch size-20 md:size-28 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-transform duration-300 ease-out"
+              style={{ transform: `rotate(${rotation}deg)` }}
+            />
+          </div>
+          {/* color configurator  */}
+          <div className={`colorConfigurtor absolute flex bottom-20 left-1/2 -translate-1/2 gap-3`}>
+            {porscheColors.map((color, index) => (
+              <div
+                onClick={() => setSelectedColor(index)}
+                key={index}
+                className={`colorBlock ${color.class} ${index == selectedColor && "border-2 scale-125"} border-gray-700 shadow shadow-gray-700 w-10 h-10 rounded-md cursor-pointer transition-transform duration-100`}
+              ></div>
+            ))}
+          </div>
+        </section>
         {/* SECTION 1: PERFORMANCE */}
-        <section className="w-full sec-1 min-h-screen flex flex-col-reverse md:flex-row items-center md:px-20 p-5">
-          <div className="md:w-1/3 text-[#0F172A] pointer-events-auto">
+        <section className="w-full sec-1 h-[60vh] md:min-h-screen flex md:flex-row items-center md:px-20 p-5">
+          <div className="md:w-1/3 text-[#0F172A] ">
             <h3 className="text-sm font-bold tracking-[0.3em] text-red-600 mb-2 uppercase">Performance</h3>
             <h2 className="md:text-6xl text-4xl font-black mb-6 leading-tight">SCREAMING <br /> AT 9,000 RPM</h2>
             <p className="text-lg leading-relaxed opacity-80 font-light">
@@ -137,8 +198,8 @@ function App() {
         </section>
 
         {/* SECTION 2: AERODYNAMICS */}
-        <section className="w-full sec-2 h-screen flex flex-col-reverse md:flex-row items-center md:justify-end md:px-20 p-5">
-          <div className="md:w-1/3 text-[#0F172A] text-right pointer-events-auto">
+        <section className="w-full sec-2 h-[60vh] md:min-h-screen flex md:flex-row items-center md:justify-end md:px-20 p-5">
+          <div className="md:w-1/3 text-[#0F172A] text-right ">
             <h3 className="text-sm font-bold tracking-[0.3em] text-red-600 mb-2 uppercase">Aerodynamics</h3>
             <h2 className="md:text-6xl text-4xl  font-black mb-6 leading-tight">ACTIVE <br /> WEAPONRY</h2>
             <p className="text-lg leading-relaxed opacity-80 font-light">
@@ -150,8 +211,9 @@ function App() {
         </section>
 
         {/* SECTION 3: LIGHTWEIGHT */}
-        <section className="w-full sec-3 h-screen flex flex-col-reverse md:flex-row items-center md:px-20 p-5">
-          <div className="md:w-1/3 text-[#0F172A] pointer-events-auto">
+
+        <section className="w-full sec-3 h-[60vh] md:min-h-screen flex md:flex-row items-center md:px-20 p-5">
+          <div className="md:w-1/3 text-[#0F172A] ">
             <h3 className="text-sm font-bold tracking-[0.3em] text-red-600 mb-2 uppercase">Lightweight</h3>
             <h2 className="md:text-6xl text-4xl  font-black mb-6 leading-tight">OBSESSIVE <br /> DIET</h2>
             <p className="text-lg leading-relaxed opacity-80 font-light">
