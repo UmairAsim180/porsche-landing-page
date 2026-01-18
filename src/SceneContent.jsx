@@ -1,5 +1,5 @@
 import { OrbitControls, Text, Stage, Environment, ContactShadows } from '@react-three/drei';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -15,9 +15,10 @@ function SceneContent({ bodyColor, ignitionStatus }) {
     const { viewport } = useThree()
     const textRef = useRef();
     const carRef = useRef();
-    let carScale = Math.min(1, viewport.width / 6)
+    let carScale = Math.min(1, viewport.width/5.3)
     let textScale = Math.min(1.5, viewport.width / 5)
     const isMobile = useIsMobile()
+    
 
     // GSAP Animations
     useGSAP(() => {

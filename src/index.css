@@ -1,1 +1,39 @@
 @import "tailwindcss";
+/* hide cursor  */
+/* Override Driver.js defaults */
+.driverjs-theme {
+  background-color: #0F172A !important; /* Dark Blue/Black */
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+.driverjs-theme .driver-popover-title {
+  font-family: sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 14px;
+  color: #fff;
+}
+
+.driverjs-theme .driver-popover-description {
+  color: #94a3b8; /* Gray text */
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* The "Next" Button */
+.driverjs-theme .driver-popover-footer button {
+  background-color: #DC2626 !important; /* Porsche Red */
+  color: white !important;
+  text-shadow: none;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
