@@ -73,7 +73,7 @@ function App() {
 
     return () => clearTimeout(timer);
   }
-}, [active, ignitionState]);
+}, [active]);
 
   // GSAP ANIMATIONS
   useGSAP(() => {
