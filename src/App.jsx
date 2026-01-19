@@ -1,51 +1,54 @@
-import { Canvas, useThree } from '@react-three/fiber';
+import { useEffect } from 'react';
+import { Suspense, useRef, useState } from 'react';
+import { useLenis } from 'lenis/react';
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css";
+import gsap from 'gsap';
+import { Canvas } from '@react-three/fiber';
 import { useProgress } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
+import { useGSAP } from '@gsap/react';
 import Loader from './Loader';
-import { Suspense, useRef, useState } from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import SceneContent from './SceneContent';
-import { useEffect } from 'react';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
 import { useIsMobile } from './hooks/useIsMobile';
-import { useLenis } from 'lenis/react';
 import Cursor from './Cursor';
-import { driver } from "driver.js";
-import "driver.js/dist/driver.css"; // Import standard CSS
 
 function App() {
-  const { active } = useProgress();
+  // states 
   const [ignitionState, setIgnitionState] = useState(0);
-  const [porscheColors, setColors] = useState([
-    { name: "Acid Green", hex: "#B8D335", class: "bg-[#B8D335]" },     // Radioactive/Toxic
-    { name: "Lava Orange", hex: "#E04F00", class: "bg-[#E04F00]" },    // High Danger
-    { name: "Ultraviolet", hex: "#46185F", class: "bg-[#46185F]" },    // Deep Purple
-    { name: "Voodoo Blue", hex: "#005596", class: "bg-[#005596]" },    // Intense Non-Metallic
-    { name: "Chalk", hex: "#D6D6D1", class: "bg-[#D6D6D1]" },          // Concrete/Modern
-    { name: "Guards Red", hex: "#E31D2B", class: "bg-[#E31D2B]" },     // Classic Speed
-    { name: "Stealth Black", hex: "#010101", class: "bg-black" },      // Batmobile
-  ])
   const [selectedColor, setSelectedColor] = useState(5)
+  const { active } = useProgress();
   let isMobile = useIsMobile()
   const lenis = useLenis()
-
   const coldStartRef = useRef(new Audio('/cold_start.mp3'));
   const idleRef = useRef(new Audio('/idle.mp3'));
+  const porscheColors = [
+    { name: "Acid Green", hex: "#B8D335", class: "bg-[#B8D335]" },
+    { name: "Lava Orange", hex: "#E04F00", class: "bg-[#E04F00]" },
+    { name: "Ultraviolet", hex: "#46185F", class: "bg-[#46185F]" },
+    { name: "Voodoo Blue", hex: "#005596", class: "bg-[#005596]" },
+    { name: "Chalk", hex: "#D6D6D1", class: "bg-[#D6D6D1]" },
+    { name: "Guards Red", hex: "#E31D2B", class: "bg-[#E31D2B]" },
+    { name: "Stealth Black", hex: "#010101", class: "bg-black" },
+  ]
 
-  useEffect(() => { // NOTE: Need to be moved
-    // Only run if the engine is OFF
-    if (ignitionState === 0) {
 
+
+  // Driver JS: Show INFO REGARDING FEATURES ON STARTING 
+  useEffect(() => {
+  if (!active && ignitionState === 0) {
+    
+   
+    const timer = setTimeout(() => {
       const driverObj = driver({
         showProgress: false,
         animate: true,
-        // Customizing the popover to look like your dark theme
         popoverClass: 'driverjs-theme',
         steps: [
           {
-            element: '.engineSwitch', // Target your Ignition Switch class
+            element: '.engineSwitch',
             popover: {
               title: 'Start Your Engine',
               description: 'Turn the key to wake up the beast.',
@@ -54,7 +57,7 @@ function App() {
             }
           },
           {
-            element: '.colorConfigurtor', // Target your Color Picker class
+            element: '.colorConfigurtor',
             popover: {
               title: 'Customize Finish',
               description: 'Select from official Porsche PTS colors.',
@@ -64,12 +67,15 @@ function App() {
           }
         ]
       });
-
+      
       driverObj.drive();
-    }
-  }, []); 
+    }, 500); 
 
+    return () => clearTimeout(timer);
+  }
+}, [active, ignitionState]);
 
+  // GSAP ANIMATIONS
   useGSAP(() => {
     gsap.from('.colorBlock', {
       opacity: 0,
@@ -97,40 +103,22 @@ function App() {
     gsap.ticker.lagSmoothing(0)
     if (isMobile) {
       gsap.to('.sec-1', {
-        scrollTrigger: {
-          trigger: '.sec-1',
-          start: 'top 45%',
-          end: 'bottom 60%',
-          scrub: 2,
-        },
-
+        scrollTrigger: { trigger: '.sec-1', start: 'top 45%', end: 'bottom 60%', scrub: 2 },
         opacity: 0,
       })
       gsap.to('.sec-2', {
-        scrollTrigger: {
-          trigger: '.sec-2',
-          start: 'top 45%',
-          end: 'bottom 60%',
-          scrub: 2,
-        },
-        // y: 100,
+        scrollTrigger: { trigger: '.sec-2', start: 'top 45%', end: 'bottom 60%', scrub: 2, },
         opacity: 0,
       })
       gsap.to('.sec-3', {
-        scrollTrigger: {
-          trigger: '.sec-3',
-          start: 'top 45%',
-          end: 'bottom 60%',
-          scrub: 2,
-        },
-        // y: 100,
+        scrollTrigger: { trigger: '.sec-3', start: 'top 45%', end: 'bottom 60%', scrub: 2, },
         opacity: 0,
       })
     }
 
   }, [isMobile]);
 
-
+  // ENGINE SOUND EFFECTS
   useEffect(() => {
     const coldStart = coldStartRef.current;
     const idle = idleRef.current;
@@ -140,7 +128,6 @@ function App() {
       coldStart.volume = 1.0;
       coldStart.currentTime = 0;
       coldStart.play();
-
       coldStart.onended = () => {
         idle.currentTime = 0;
         idle.play();
@@ -176,20 +163,19 @@ function App() {
           </Suspense>
           <EffectComposer>
             <Bloom
-              luminanceThreshold={2.0} // only glow things brighter than 1.0
-              mipmapBlur               // Makes the glow look soft and professional
-              intensity={1.0}          // Strength of the glow
-              radius={0.6}             // Spread of the glow
+              luminanceThreshold={2.0} 
+              mipmapBlur               
+              intensity={1.0}          
+              radius={0.6}             
             />
           </EffectComposer>
         </Canvas>
       </div>
 
-      {/* 2. THE HTML CONTENT (Foreground Layer) */}
+      {/* 2. THE HTML CONTENT  */}
       <div className={`relative z-20 ${active ? 'hidden' : 'block'} `}>
 
         <section className='sec-0 h-screen relative'>
-          {/* ignition switch  */}
           <div className={`engineSwitch absolute bottom-20 md:bottom-20 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-20 switch size-36 bg-[#282828] rounded-full`}>
             <img src="/switch_ring.png" alt="switch ring" className="engineSwitch w-full h-full" />
             <img
@@ -199,14 +185,12 @@ function App() {
               className="engineSwitch size-28 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-transform duration-300 ease-out"
               style={{ transform: `rotate(${rotation}deg)` }}
             />
-            {/* Ignition Switch  */}
             <div className="absolute md:-top-10 md:left-1/2 md:-translate-x-1/2 top-1/2 -translate-y-1/2 -left-18 text-center text-[#0F172A] font-bold text-sm">
               <p>IGNITION</p>
               <p>{ignitionState === 0 ? "OFF" : ignitionState === 1 ? "ACC" : "ON"}</p>
             </div>
 
           </div>
-          {/* color configurator  */}
           <div className={`colorConfigurtor absolute flex md:bottom-10 bottom-56 left-1/2 -translate-1/2 gap-3`}>
             {porscheColors.map((color, index) => (
               <div
@@ -217,6 +201,7 @@ function App() {
             ))}
           </div>
         </section>
+
         {/* SECTION 1: PERFORMANCE */}
         <section className="w-full sec-1 md:min-h-screen flex md:flex-row items-center md:px-20 p-5">
           <div className="lg:w-1/3 md:w-1/2 text-[#0F172A] ">
@@ -230,7 +215,6 @@ function App() {
               this is not just an engine—it is a musical instrument of speed.
             </p>
 
-            {/* Stats Grid - GT3 RS Stats */}
             <div className="mt-10 grid grid-cols-2 gap-8 border-t border-gray-300 pt-8">
               <div>
                 <h4 className="md:text-4xl text-2xl font-black">3.0s</h4>
@@ -258,7 +242,6 @@ function App() {
         </section>
 
         {/* SECTION 3: LIGHTWEIGHT */}
-
         <section className="w-full sec-3 md:min-h-screen flex md:flex-row items-center md:px-20 p-5">
           <div className="lg:w-1/3 md:w-1/2 text-[#0F172A] ">
             <h3 className="text-sm font-bold tracking-[0.3em] text-red-600 mb-2 uppercase">Lightweight</h3>

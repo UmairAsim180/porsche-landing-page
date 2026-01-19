@@ -4,15 +4,15 @@ export default function Footer() {
   return (
     <footer className="w-full bg-black text-white py-20 px-10 md:px-20 pointer-events-auto relative z-10 border-t border-white/10 overflow-hidden">
       
-      {/* 1. MASSIVE BACKGROUND WATERMARK */}
-      {/* This sits behind the content for that "poster" look */}
+      
+      
       <h1 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15vw] font-black italic tracking-tighter text-white opacity-[0.03] select-none whitespace-nowrap pointer-events-none">
         GT3 RS
       </h1>
 
       <div className="relative z-10 max-w-7xl mx-auto">
         
-        {/* 2. TOP ROW: BRAND & RAW DATA */}
+        
         <div className="flex flex-col md:flex-row justify-between items-start mb-20 gap-10">
           <div>
             <h2 className="text-3xl font-black italic tracking-tighter mb-4">PORSCHE</h2>
@@ -23,17 +23,17 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Technical Badge */}
+          
           <div className="border border-white/20 p-4 text-center hidden md:block">
              <p className="text-[10px] font-mono tracking-widest text-gray-500 uppercase mb-1">Nürburgring Lap</p>
              <p className="text-3xl font-black italic text-red-600">6:49.328</p>
           </div>
         </div>
 
-        {/* 3. MIDDLE ROW: LINKS (Grid Layout) */}
+        
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 border-b border-white/10 pb-16 mb-8">
           
-          {/* Column 1 */}
+          
           <div>
             <h4 className="font-bold tracking-widest text-xs uppercase mb-6 text-red-600">Configuration</h4>
             <ul className="space-y-3 font-mono text-xs text-gray-400">
@@ -44,7 +44,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 2 */}
+          
           <div>
             <h4 className="font-bold tracking-widest text-xs uppercase mb-6 text-red-600">Experience</h4>
             <ul className="space-y-3 font-mono text-xs text-gray-400">
@@ -55,7 +55,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3 */}
+          
           <div>
             <h4 className="font-bold tracking-widest text-xs uppercase mb-6 text-red-600">Legal</h4>
             <ul className="space-y-3 font-mono text-xs text-gray-400">
@@ -66,7 +66,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Newsletter Box */}
+          
           <div className="col-span-2 md:col-span-1">
             <h4 className="font-bold tracking-widest text-xs uppercase mb-6 text-red-600">Updates</h4>
             <p className="font-mono text-[10px] text-gray-500 mb-4">
@@ -85,7 +85,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* 4. BOTTOM ROW: COPYRIGHT */}
+        
         <div className="flex flex-col md:flex-row justify-between items-center text-[10px] font-mono text-gray-600 uppercase tracking-widest">
           <p>© 2024 Dr. Ing. h.c. F. Porsche AG</p>
           <p className="mt-2 md:mt-0">System Status: <span className="text-green-500">Normal</span></p>

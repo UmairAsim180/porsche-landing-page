@@ -1,5 +1,5 @@
-import { OrbitControls, Text, Stage, Environment, ContactShadows } from '@react-three/drei';
-import React, { useEffect, useRef } from 'react';
+import { OrbitControls, Text, Environment, ContactShadows } from '@react-three/drei';
+import { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -15,25 +15,20 @@ function SceneContent({ bodyColor, ignitionStatus }) {
     const { viewport } = useThree()
     const textRef = useRef();
     const carRef = useRef();
-    let carScale = Math.min(1, viewport.width/5.3)
+    let carScale = Math.min(1, viewport.width / 5.3)
     let textScale = Math.min(1.5, viewport.width / 5)
     const isMobile = useIsMobile()
-    
+
 
     // GSAP Animations
     useGSAP(() => {
-        // safety check 
         if (!textRef.current || !carRef.current) return;
 
-        // 🛑 KILL SWITCH: Stop all previous animations on these objects
-        // This prevents Desktop animations from fighting Mobile ones
         gsap.killTweensOf(carRef.current.position);
         gsap.killTweensOf(carRef.current.rotation);
         gsap.killTweensOf(textRef.current.position);
         gsap.killTweensOf(textRef.current.material);
 
-        // 🧹 RESET: Force everything back to center 0,0,0
-        // This cleans up any "mess" left behind by the other mode
         gsap.set(carRef.current.position, { x: 0, y: -0.2, z: 0 });
         gsap.set(carRef.current.rotation, { x: 0, y: Math.PI / 2, z: 0 });
         gsap.set(textRef.current.position, { x: 0, y: 1.2, z: -2 });
@@ -61,40 +56,23 @@ function SceneContent({ bodyColor, ignitionStatus }) {
                     trigger: '.sec-1',
                     start: 'top 60%',
                     end: '70% 80%',
-                    // markers: true,
                     scrub: 2,
                 }
             })
-                .to(textRef.current.material, {
-                    opacity: 0,
-                })
-                .to(carRef.current.position, {
-                    y:0,
-                    z: 1,
-                    ease: "power2.out"
-                }, "<")
-                .to(carRef.current.rotation, {
-                    y: Math.PI,
-                    duration: 2,
-                    ease: "power2.out"
-                }, "<")
+                .to(textRef.current.material, { opacity: 0 })
+                .to(carRef.current.position, { y: 0, z: 1, ease: "power2.out" }, "<")
+                .to(carRef.current.rotation, { y: Math.PI, duration: 2, ease: "power2.out" }, "<")
 
-            // timelines for section 2
             const sec2Tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: '.sec-2',
                     start: 'top 60%',
                     end: '70% 80%',
-                    // markers: true,
                     scrub: 2,
 
                 }
             })
-                .to(carRef.current.rotation, {
-                    y: Math.PI * 1.9,
-                    duration: 2,
-                    ease: "power2.out"
-                }, "<")
+                .to(carRef.current.rotation, { y: Math.PI * 1.9, duration: 2, ease: "power2.out" }, "<")
             const sec3Tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: '.sec-3',
@@ -104,19 +82,12 @@ function SceneContent({ bodyColor, ignitionStatus }) {
 
                 }
             })
-                .to(carRef.current.position, {
-                    z: 0,
-                    ease: "power2.out"
-                })
-                .to(carRef.current.rotation, {
-                    y: Math.PI * 2.5,
-                    duration: 2,
-                    ease: "power2.out"
-                },'<')
+                .to(carRef.current.position, { z: 0, ease: "power2.out" })
+                .to(carRef.current.rotation, { y: Math.PI * 2.5, duration: 2, ease: "power2.out" }, '<')
 
         }
         else {
-            // timelines for section 1
+            // for desktop 
             const sec1Tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: '.sec-1',
@@ -125,20 +96,9 @@ function SceneContent({ bodyColor, ignitionStatus }) {
                     scrub: 2,
                 }
             })
-                .to(textRef.current.material, {
-                    opacity: 0,
-                })
-                .to(carRef.current.position, {
-                    x: 1.2,
-                    z: -1,
-                    ease: "power2.out"
-                }, "<")
-                .to(carRef.current.rotation, {
-                    y: Math.PI,
-                    duration: 2,
-                    ease: "power2.out"
-                }, "<")
-            // timelines for section 2
+                .to(textRef.current.material, { opacity: 0 })
+                .to(carRef.current.position, { x: 1.2, z: -1, ease: "power2.out" }, "<")
+                .to(carRef.current.rotation, { y: Math.PI, duration: 2, ease: "power2.out" }, "<")
             const sec2Tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: '.sec-2',
@@ -148,16 +108,8 @@ function SceneContent({ bodyColor, ignitionStatus }) {
 
                 }
             })
-                .to(carRef.current.position, {
-                    x: -1,
-                    duration: 1,
-                    ease: "power2.out"
-                },)
-                .to(carRef.current.rotation, {
-                    y: Math.PI * 1.9,
-                    duration: 2,
-                    ease: "power2.out"
-                }, "<")
+                .to(carRef.current.position, { x: -1, duration: 1, ease: "power2.out" },)
+                .to(carRef.current.rotation, { y: Math.PI * 1.9, duration: 2, ease: "power2.out" }, "<")
             const sec3Tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: '.sec-3',
@@ -167,15 +119,8 @@ function SceneContent({ bodyColor, ignitionStatus }) {
 
                 }
             })
-                .to(carRef.current.position, {
-                    x: 1.5,
-                    ease: "power2.out"
-                },)
-                .to(carRef.current.rotation, {
-                    y: Math.PI * 2.5,
-                    duration: 2,
-                    ease: "power2.out"
-                }, "<")
+                .to(carRef.current.position, { x: 1.5, ease: "power2.out" },)
+                .to(carRef.current.rotation, { y: Math.PI * 2.5, duration: 2, ease: "power2.out" }, "<")
         }
 
 
@@ -199,15 +144,13 @@ function SceneContent({ bodyColor, ignitionStatus }) {
             {!isMobile && <ContactShadows
                 opacity={0.5}
                 position={[0, -0.1, 0]}
-                scale={30}        // <--- INCREASED: Prevents side clipping
+                scale={30}
                 blur={2}
-                far={5}           // <--- INCREASED: Sees the whole car height
-                resolution={1024} // Optional: Keeps it sharp at larger scales
+                far={5}
+                resolution={1024}
                 color="#000000"
             />}
             <Porsche scale={carScale} ref={carRef} rotation={[0, Math.PI / 2, 0]} bodyColor={bodyColor} ignitionStatus={ignitionStatus} />
-            {/* </Stage> */}
-
             <OrbitControls enableZoom={false} enableRotate={true} />
         </>
     );
