@@ -19,7 +19,7 @@ function App() {
   // states 
   const [ignitionState, setIgnitionState] = useState(0);
   const [selectedColor, setSelectedColor] = useState(5)
-  const { active } = useProgress();
+  const { active, loaded } = useProgress();
   let isMobile = useIsMobile()
   const lenis = useLenis()
   const coldStartRef = useRef(new Audio('/cold_start.mp3'));
@@ -38,7 +38,7 @@ function App() {
 
   // Driver JS: Show INFO REGARDING FEATURES ON STARTING 
   useEffect(() => {
-  if (!active && ignitionState === 0) {
+  if (!active && loaded>0) {
     
    
     const timer = setTimeout(() => {

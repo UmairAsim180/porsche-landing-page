@@ -150,6 +150,7 @@ function SceneContent({ bodyColor, ignitionStatus }) {
                 resolution={1024}
                 color="#000000"
             />}
+
             <Porsche scale={carScale} ref={carRef} rotation={[0, Math.PI / 2, 0]} bodyColor={bodyColor} ignitionStatus={ignitionStatus} />
             <OrbitControls enableZoom={false} enableRotate={true} />
         </>
